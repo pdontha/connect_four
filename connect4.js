@@ -16,7 +16,7 @@ let board = []; // array of rows, each row is array of cells  (board[row][col])
  */
 function makeBoard() {
   board = Array(HEIGHT).fill(null);
-  board = board.map(()=> new Array(WIDTH).fill(null));
+  board = board.map(() => new Array(WIDTH).fill(null));
 
 }
 
@@ -52,12 +52,13 @@ function makeHtmlBoard() {
 /** findSpotForCol: given column col, return top emptrow row (null if filled) */
 
 function findSpotForCol(col) {
-  for (let row = board.length-1; row >= 0; row--) {
-    if (!board[row][col]){
+  for (let row = board.length - 1; row >= 0; row--) {
+    if (!board[row][col]) {
       board[row][col] = currPlayer;
       return row;
     }
   }
+
   return null;
 }
 
@@ -80,8 +81,11 @@ function placeInTable(row, col) {
 /** endGame: announce game end */
 
 function endGame(msg) {
-  // TODO: pop up alert message
-  return alert(msg);
+  // pop up alert message
+  return alert(msg); 
+  //  board = [];
+  //   makeBoard();
+ 
 
 }
 
@@ -98,26 +102,27 @@ function handleClick(evt) {
   }
 
   // place piece in board and add to HTML table
-  // TODO: add line to update in-memory board
   placeInTable(row, col);
 
   // check for win
   if (checkForWin()) {
     return endGame(`Player ${currPlayer} won!`);
-    
+
   }
 
   // check for tie
-  let isTie = board.every((el, i) => {
-         return el.every(el => el > 0);
-  });
-
-  if(isTie){
-    alert("Tie!");
+  if (checkForTie()) {
+    return endGame("Tie!");
   }
 
   // switch players
   currPlayer = currPlayer === 1 ? 2 : 1;
+}
+
+function checkForTie() {
+  return board.every((el, i) => {
+    return el.every(el => el > 0);
+  });
 }
 
 /** checkForWin: check board cell-brow-cell for "does a win start here?" */
