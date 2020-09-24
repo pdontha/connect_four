@@ -9,23 +9,24 @@ const WIDTH = 7;
 const HEIGHT = 6;
 
 let currPlayer = 1; // active player: 1 or 2
-const board = []; // array of rows, each row is array of cells  (board[y][x])
+let board = []; // array of rows, each row is array of cells  (board[y][x])
 
 /** makeBoard: create in-JS board structure:
  *    board = array of rows, each row is array of cells  (board[y][x])
  */
 function makeBoard() {
-  let row = new Array(WIDTH).fill(null);
-  board = Array(HEIGHT).fill(row);
-  
+  board = Array(HEIGHT).fill(null);
+  board = board.map(()=> new Array(WIDTH).fill(null));
+
+  console.assert(board[0]!=board[1]);
 }
 
 /** makeHtmlBoard: make HTML table and row of column tops. */
 
 function makeHtmlBoard() {
-  // TODO: get "htmlBoard" letiable from the item in HTML w/ID of "board"
+  let htmlBoard = document.getElementById("board");
 
-  // TODO: add comment for this code
+  // create top row where user will click to drop pieces
   let top = document.createElement("tr");
   top.setAttribute("id", "column-top");
   top.addEventListener("click", handleClick);
@@ -37,7 +38,7 @@ function makeHtmlBoard() {
   }
   htmlBoard.append(top);
 
-  // TODO: add comment for this code
+  // create game board rows in HTML with id's for each cell created dynamically 
   for (let y = 0; y < HEIGHT; y++) {
     const row = document.createElement("tr");
     for (let x = 0; x < WIDTH; x++) {
@@ -60,6 +61,9 @@ function findSpotForCol(x) {
 
 function placeInTable(y, x) {
   // TODO: make a div and insert into correct table cell
+  let pieceDiv = document.createElement("div");
+  pieceDiv.classList.add("piece");
+  document.getElementById(`${y}-${x}`).append(pieceDiv);
 }
 
 /** endGame: announce game end */
