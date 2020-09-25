@@ -187,7 +187,7 @@ function checkForWin() {
 
 function openTheGame() {
   localStorage.clear();
-  
+
   startButton.innerText = "START";
   startButton.addEventListener("click", startGame)
   
