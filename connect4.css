@@ -1,9 +1,48 @@
 /* game board table */
 
+body {
+  font-size: 30px;
+}
+
+#game {
+}
+
+header {
+  margin: 10px auto;
+  text-align: center;
+  border: 3px solid black;
+  width: 40%;
+  border-radius: 5px;
+}
+
+#p1-score,
+#p2-score {
+  margin: 5px auto;
+  padding: 2px;
+  text-align: center;
+  font-size: .7em;
+  border: 2px solid black;
+  border-radius: 5px;
+  width: 35%;
+}
+
+#p1-score {
+  background-color: rgb(0, 0, 230, 80%);
+}
+
+#p2-score {
+  background-color: rgb(255, 0, 0, 80%);
+}
+
+#board {
+  margin: 0 auto;
+}
+
 #board td {
   width: 50px;
   height: 50px;
   border: solid 1px #666;
+  border-radius: 3px;
 }
 
 /* pieces are div within game table cells: draw as colored circles */
@@ -35,3 +74,22 @@
 #column-top td:hover {
   background-color: gold;
 }
+
+#start-button {
+  margin: 10px auto;
+  padding: 3px;
+  text-align: center;
+  background-color: tan;
+  width: 5em;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 600px) {
+  header,
+  #p1-score,
+  #p2-score {
+    font-size: .8em;
+    width: 70%;
+  }
+} 

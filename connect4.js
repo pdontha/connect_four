@@ -4,12 +4,17 @@
  * column until a player gets four-in-a-row (horiz, vert, or diag) or until
  * board fills (tie)
  */
+const game = document.getElementById("game");
+const startButton = document.getElementById("start-button");
+const PLAYER_1_SCORE = document.getElementById("p1-score");
+const PLAYER_2_SCORE = document.getElementById("p2-score");
 
 const WIDTH = 7;
 const HEIGHT = 6;
 
 let currPlayer = 1; // active player: 1 or 2
 let board = []; // array of rows, each row is array of cells  (board[row][col])
+
 
 /** makeBoard: create in-JS board structure:
  *    board = arrarow of rows, each row is arrarow of cells  (board[row][col])
@@ -68,7 +73,7 @@ function placeInTable(row, col) {
   // TODO: make a div and insert into correct table cell
   let pieceDiv = document.createElement("div");
   pieceDiv.classList.add("piece");
-  console.log(row, col);
+
   document.getElementById(`${row}-${col}`).append(pieceDiv);
   if (currPlayer === 1) {
     pieceDiv.classList.add("player1")
@@ -82,11 +87,31 @@ function placeInTable(row, col) {
 
 function endGame(msg) {
   // pop up alert message
-  return alert(msg); 
-  //  board = [];
-  //   makeBoard();
- 
+  alert(msg); 
+  displayScore();
+  document.getElementById("column-top").removeEventListener("click", handleClick); 
+  restartGame();
+  return;
+}
 
+function restartGame(){
+  startButton.innerText = "RESTART";
+  startButton.style.display = "";
+  startButton.addEventListener("click", () => {
+    let board = document.getElementById("board");
+    board.innerHTML = "";
+    startGame();
+  });
+  
+  game.append(startButton);
+}
+
+function displayScore() {
+  let count =  localStorage.getItem(currPlayer.toString()) || 0;
+  count++;
+  localStorage.setItem(currPlayer.toString(), count.toString());
+  document.getElementById(`p${currPlayer}-score`).innerText = `Player ${currPlayer} win count: ${localStorage.getItem(currPlayer)}`;
+ 
 }
 
 /** handleClick: handle click of column top to play piece */
@@ -107,7 +132,6 @@ function handleClick(evt) {
   // check for win
   if (checkForWin()) {
     return endGame(`Player ${currPlayer} won!`);
-
   }
 
   // check for tie
@@ -143,9 +167,9 @@ function checkForWin() {
     );
   }
 
-  // looping through each cell in the board and 
-  // making arrays with horizontal, vertical, diagonalright and 
-  // diagonal left cells
+  // looping through each cell in the board
+  // and making arrays with horizontal, vertical, diagonal right and diagonal left cells
+  // and check if current player is the winner 
 
   for (let row = 0; row < HEIGHT; row++) {
     for (let col = 0; col < WIDTH; col++) {
@@ -161,5 +185,24 @@ function checkForWin() {
   }
 }
 
-makeBoard();
-makeHtmlBoard();
+function openTheGame() {
+  localStorage.clear();
+  
+  startButton.innerText = "START";
+  startButton.addEventListener("click", startGame)
+  
+  localStorage.setItem("1", "0");
+  localStorage.setItem("2", "0");
+  PLAYER_1_SCORE.innerText = `Player 1 win count: ${localStorage.getItem('1')}`;
+  PLAYER_2_SCORE.innerText = `Player 2 win count: ${localStorage.getItem('2')}`;
+
+  game.append(startButton);
+}
+
+function startGame() {
+  makeBoard();
+  makeHtmlBoard();
+  startButton.style.display = "none";
+}
+
+openTheGame();
